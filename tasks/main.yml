@@ -1,0 +1,24 @@
+---
+# tasks file for ansible-intellij
+
+# Use VBoxManage to customize the VM. For example to change memory:
+# vb.customize ["modifyvm", :id, "--memory", "2048"]
+# vb.customize ["modifyvm", :id, "--vram", "12"]
+#
+# dependency: ansible-java
+
+- apt: name=gnome state=present
+
+# SSL Certificate does not belong to download.jetbrains.com.
+# Make sure the url has a certificate that belongs to it or use validate_certs=False (insecure)
+- get_url: url=https://download.jetbrains.com/idea/ideaIU-{{ idea_version }}.tar.gz mode=0644 validate_certs=False
+  args:
+      dest: /tmp/ideaIU-{{ idea_version }}.tar.gz
+
+# Verify the file SHA-256 checksum
+# https://download.jetbrains.com/idea/ideaIU-14.1.4.tar.gz.sha256
+
+- unarchive: src=/tmp/ideaIU-{{ idea_version }}.tar.gz dest=/usr/local
+  args:
+    copy: no
+    creates: /usr/local/idea-IU-141.1532.4
