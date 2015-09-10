@@ -1,2 +1,5 @@
 ---
 # defaults file for ansible-intellij
+
+idea_install_gnome: false
+idea_version: 14.1.4

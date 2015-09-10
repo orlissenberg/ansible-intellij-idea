@@ -14,6 +14,7 @@ EOF
 mkdir -p $TMP_DIR/group_vars 2> /dev/null
 cat << EOF > $TMP_DIR/group_vars/webservers
 idea_version: 14.1.4
+idea_install_gnome: true
 EOF
 
 # Create Ansible config
@@ -32,7 +33,7 @@ cat << EOF > $TMP_DIR/playbook.yml
   sudo: yes
 
   roles:
-    - ansible-intellij
+    - ansible-intellij-idea
 EOF
 
 export ANSIBLE_CONFIG=$TMP_DIR/ansible.cfg
