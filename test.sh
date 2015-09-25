@@ -15,6 +15,8 @@ mkdir -p $TMP_DIR/group_vars 2> /dev/null
 cat << EOF > $TMP_DIR/group_vars/webservers
 idea_version: 14.1.4
 idea_install_gnome: true
+idea_install_chrome: true
+idea_install_sublime: true
 EOF
 
 # Create Ansible config

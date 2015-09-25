@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Sublime Text 2
+Exec="/usr/local/sublime-text-2/sublime_text" %f
+Comment=Sublime!
+Categories=Development;IDE;
+Terminal=false

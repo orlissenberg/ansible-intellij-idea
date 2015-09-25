@@ -1,0 +1,24 @@
+---
+
+- get_url: url=http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%202.0.2%20x64.tar.bz2 mode=0644 validate_certs=False
+  args:
+      dest: /tmp/sublime-text-x64.tar.bz2
+
+# Verify the file SHA-256 checksum
+- copy: src=sublime-text-x64.tar.bz2.sha256 dest=/tmp/sublime-text-x64.tar.bz2.sha256 owner=root group=root mode=0644
+
+- name: checksum sha256
+  shell: sha256sum sublime-text-x64.tar.bz2.sha256 -c
+  args:
+    chdir: /tmp
+
+- unarchive: src=/tmp/sublime-text-x64.tar.bz2 dest=/usr/local
+  args:
+    copy: no
+    creates: /usr/local/sublime-text-2
+
+- shell: mv "/usr/local/Sublime Text 2" /usr/local/sublime-text-2
+  args:
+    creates: /usr/local/sublime-text-2
+
+- copy: src=sublime-text-2.desktop dest=/usr/share/applications/sublime-text-2.desktop owner=root group=root mode=0644

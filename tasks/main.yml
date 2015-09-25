@@ -7,17 +7,22 @@
 #
 # dependency: ansible-java
 
+# Install GNOME Desktop
 - apt: name=gnome state=present update_cache=yes
   when: idea_install_gnome
 
+# Google Chrome
+- apt: name=chromium state=present update_cache=yes
+  when: idea_install_chrome
+
 # SSL Certificate does not belong to download.jetbrains.com.
 # Make sure the url has a certificate that belongs to it or use validate_certs=False (insecure)
+# Latest: https://download.jetbrains.com/idea/ideaIU-14.1.5.tar.gz
 - get_url: url=https://download.jetbrains.com/idea/ideaIU-{{ idea_version }}.tar.gz mode=0644 validate_certs=False
   args:
       dest: /tmp/ideaIU-{{ idea_version }}.tar.gz
 
 # Verify the file SHA-256 checksum
-# https://download.jetbrains.com/idea/ideaIU-14.1.4.tar.gz.sha256
 - copy: src=ideaIU-{{ idea_version }}.tar.gz.sha256 dest=/tmp/ideaIU-{{ idea_version }}.tar.gz.sha256 owner=root group=root mode=0644
 
 - name: checksum sha256
@@ -28,4 +33,11 @@
 - unarchive: src=/tmp/ideaIU-{{ idea_version }}.tar.gz dest=/usr/local
   args:
     copy: no
-    creates: /usr/local/idea-IU-141.1532.4
+    creates: /usr/local/idea
+
+- shell: mv /usr/local/idea-IU* /usr/local/idea
+  args:
+    creates: /usr/local/idea
+
+- include: sublime.yml
+  when: idea_install_sublime
