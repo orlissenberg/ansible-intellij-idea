@@ -15,12 +15,21 @@
 - apt: name=chromium state=present update_cache=yes
   when: idea_install_chrome
 
+# SublimeText
+- include: sublime.yml
+  when: idea_install_sublime
+
+# IntelliJ IDEA
+- stat: path=/usr/local/idea
+  register: idea_install_path
+
 # SSL Certificate does not belong to download.jetbrains.com.
 # Make sure the url has a certificate that belongs to it or use validate_certs=False (insecure)
 # Latest: https://download.jetbrains.com/idea/ideaIU-15.0.tar.gz
 - get_url: url=https://download.jetbrains.com/idea/ideaIU-{{ idea_version }}.tar.gz mode=0644 validate_certs=False
   args:
       dest: /tmp/ideaIU-{{ idea_version }}.tar.gz
+  when: idea_install_path.stat.exists == False
 
 # Verify the file SHA-256 checksum
 - copy: src=ideaIU-{{ idea_version }}.tar.gz.sha256 dest=/tmp/ideaIU-{{ idea_version }}.tar.gz.sha256 owner=root group=root mode=0644
@@ -29,6 +38,7 @@
   shell: sha256sum ideaIU-{{ idea_version }}.tar.gz.sha256 -c
   args:
     chdir: /tmp
+  when: idea_install_path.stat.exists == False
 
 - unarchive: src=/tmp/ideaIU-{{ idea_version }}.tar.gz dest=/usr/local
   args:
@@ -38,6 +48,3 @@
 - shell: mv /usr/local/idea-IU* /usr/local/idea
   args:
     creates: /usr/local/idea
-
-- include: sublime.yml
-  when: idea_install_sublime
