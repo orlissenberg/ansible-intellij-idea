@@ -19,18 +19,17 @@
 - include: sublime.yml
   when: idea_install_sublime
 
+# Slack
+- include: slack.yml
+  when: idea_install_slack
+
 # IntelliJ IDEA
 - stat: path=/usr/local/idea
   register: idea_install_path
 
-# Slack
-# https://slack.com/downloads
-# https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-amd64.deb
-# sudo dpkg -i slack-desktop-1.2.6-amd64.deb
-
 # SSL Certificate does not belong to download.jetbrains.com.
 # Make sure the url has a certificate that belongs to it or use validate_certs=False (insecure)
-# Latest: https://download.jetbrains.com/idea/ideaIU-15.0.tar.gz
+# Latest: https://download.jetbrains.com/idea/ideaIU-15.0.2.tar.gz
 - get_url: url=https://download.jetbrains.com/idea/ideaIU-{{ idea_version }}.tar.gz mode=0644 validate_certs=False
   args:
       dest: /tmp/ideaIU-{{ idea_version }}.tar.gz

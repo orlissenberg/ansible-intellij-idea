@@ -1,0 +1,20 @@
+---
+
+# Slack
+# https://slack.com/downloads
+# sudo dpkg -i slack-desktop-1.2.6-amd64.deb
+
+- name: Check if Slack is installed
+  command: dpkg-query -W slack-desktop
+  register: idea_slack_check_deb
+  failed_when: idea_slack_check_deb.rc > 1
+  changed_when: idea_slack_check_deb.rc == 1
+
+- get_url: url=https://slack-ssb-updates.global.ssl.fastly.net/linux_releases/slack-desktop-1.2.6-amd64.deb mode=0644 validate_certs=False
+  args:
+    dest: "/tmp/slack-desktop-1.2.6-amd64.deb"
+  when: idea_slack_check_deb.rc == 1
+
+- name: Install Slack
+  apt: deb="/tmp/slack-desktop-1.2.6-amd64.deb"
+  when: idea_slack_check_deb.rc == 1

@@ -13,10 +13,11 @@ EOF
 # Create group_vars for the webservers
 mkdir -p $TMP_DIR/group_vars 2> /dev/null
 cat << EOF > $TMP_DIR/group_vars/webservers
-idea_version: 15.0
+idea_version: 15.0.2
 idea_install_gnome: true
 idea_install_chrome: true
 idea_install_sublime: true
+idea_install_slack: true
 EOF
 
 # Create Ansible config
