@@ -5,6 +5,7 @@
 - get_url: url=https://release.gitkraken.com/linux/gitkraken-amd64.deb mode=0644 validate_certs=False
   args:
     dest: "/tmp/gitkraken-amd64.deb"
+    force: yes
 
 - name: Install GitKraken
   apt: deb="/tmp/gitkraken-amd64.deb"
