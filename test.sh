@@ -13,7 +13,7 @@ EOF
 # Create group_vars for the webservers
 mkdir -p $TMP_DIR/group_vars 2> /dev/null
 cat << EOF > $TMP_DIR/group_vars/webservers
-idea_version: 2016.1
+idea_version: 2016.3.1
 idea_install_gnome: true
 idea_install_chrome: true
 idea_install_sublime: true

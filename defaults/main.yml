@@ -6,4 +6,4 @@ idea_install_chrome: false
 idea_install_sublime: false
 idea_install_slack: false
 idea_install_gitkraken: false
-idea_version: 2016.1
+idea_version: 2016.3.1
